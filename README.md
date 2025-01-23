@@ -2,7 +2,7 @@
 | Name  | Job Description |
 | ------------- | ------------- |
 | Brillyando Magathan Achmad  | Data preparation, data cleaning, and preprocessing data. Create, build, and develope multi-agent system, implement virtual try on and integrate to streamlit  |
-| Putra Al Farizi  | Data Preparation, Data Preprocessing, Develop Multi-agent system, Analyze Retention Rate, Average Order Value and Conversion Rate, display recommended product images, Build Streamlit Application Chatbot |
+| Putra Al Farizi  | Data Preparation, Data Preprocessing, Analyze Retention Rate, Average Order Value and Conversion Rate, and Develop Chatbot Application with RAG|
 | Khalid Destiawan  | Data Preparation, Analyze Retention Rate, Average Order Value and Conversion Rate. Dashboard development |
 
 # Business Understanding
@@ -52,7 +52,7 @@ Follow these steps to install the project from GitHub:
     openai_api_key = 'your openai api key'
 7. **Run the application using Streamlit**
     ```bash
-    streamlit run main.py
+    streamlit run app/main.py
     ```
 
 ## How to use Application
@@ -88,7 +88,7 @@ Welcome! Please provide your Customer ID to start.
         Event Type: Vacation\
         Reason: This shirt is specifically designed for sunny weather, making it ideal for vacation. Its blue color aligns with your preference, and it falls within a similar price range to your previous purchases, indicating a potential fit for your budget.
         ```
-        ![Struktur Database](image/PROD1457.jpg)\
+        ![Struktur Database](images/PROD1457.jpg)\
         ```bash
         Virtual Try On
         ```
