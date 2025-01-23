@@ -22,7 +22,7 @@ import glob
 openai_api_key = ""
 os.environ["OPENAI_API_KEY"] = openai_api_key
 
-df = pd.read_csv('Dataset/Customer_Interaction_Data_v2.csv')
+df = pd.read_csv('Dataset/Customer_Interaction_Data_v3.csv')
 df_products = pd.read_csv('Dataset/final_product_catalog.csv')
 
 # 1. Create Vector Database
@@ -36,14 +36,14 @@ def retrieve_transcation(cust_id):
     return df[df['Customer_ID'] == cust_id].head(3).to_dict()
 
 # 2. Retrieval Agent
-def retrieve_documents(query, vector_db, top_k=5):
+def retrieve_documents(query, vector_db, top_k=10):
     return vector_db.similarity_search(query, top_k)
 
 def generate_streaming_response_openai(query, docs, purchase_hist):
     # Combine retrieved documents into context
     context = "\n\n".join([doc.page_content for doc in docs])
     prompt = (
-        f"Answer the following question based on the context:\n\nContext: {context}\n by adding similarity witout adding the product id from history:\n\n History : {purchase_hist}\n\n Question: {query}. "
+        f"Answer the following question based on the context:\n\nContext: {context}\n by adding analyzing similarities from purchase history:\n\n History : {purchase_hist}\n\n Question: {query}. "
         "Provide detailed and accurate answer with maximum 3 products. "
         "Always include the reason. "
         "If the question is product related, always attach product id. "
@@ -51,12 +51,13 @@ def generate_streaming_response_openai(query, docs, purchase_hist):
 
     # Call OpenAI API with streaming
     response = openai.chat.completions.create(
-        model="gpt-4",  # Adjust the model name as per availability
+        model="gpt-4o",  # Adjust the model name as per availability
         messages=[
-            {"role": "system", "content": "You are a helpful assistant. Answer accurately and give reason."},
+            {"role": "system", "content": "You are a helpful assistant. Answer accurately and give reason, but always keep the friendly tone."},
             {"role": "user", "content": prompt}
         ],
-        stream=True  # Enable streaming
+        stream=True,  # Enable streaming
+        temperature=0.3
     )
      
     # Placeholder for the response
@@ -173,10 +174,13 @@ def chatbot_function():
         if not st.session_state["customer_id"]:
             # Jika belum ada Customer ID, minta pengguna memasukkan ID
             st.session_state["customer_id"] = prompt
-            if st.session_state["customer_id"] not in df["Customer_ID"].values:
+            if st.session_state["customer_id"] in df["Customer_ID"].values or st.session_state["customer_id"] not in df["Email"].values:
                 response = "Customer ID not found. Please try again."
                 st.session_state["customer_id"] = None  # Reset ID
             else:
+                if "@" in st.session_state["customer_id"]:
+                    id = df[df['Email'] == st.session_state["customer_id"]]["Customer_ID"].iloc[0]
+                    st.session_state["customer_id"] = id
                 response = f"Thank you! Customer ID '{st.session_state['customer_id']}' has been verified. How can I assist you?"
         else:
             # Proses permintaan dengan Crew
