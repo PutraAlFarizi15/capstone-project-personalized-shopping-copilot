@@ -139,15 +139,23 @@ def render_product(product_id):
             st.error(f"Gambar untuk produk {product_id} tidak ditemukan.")
 
 # Fungsi utama chatbot
-def chatbot_function():
+def chatbot_function(email):
     # Streamlit Interface
     st.header("💬 Product Recommendation Chatbot")
 
     # Inisialisasi sesi untuk menyimpan percakapan dan ID pelanggan
     if "messages" not in st.session_state:
-        st.session_state["messages"] = [{"role": "assistant", "content": "Welcome! Please provide your Customer ID to start."}]
+        st.session_state["messages"] = [{"role": "assistant", "content": "Welcome! I'm here to help you choose products based on your preferences. How can I assist you today?"}]
+        
     if "customer_id" not in st.session_state:
-        st.session_state["customer_id"] = None
+        customer_id = df[df['Email'] == email]['Customer_ID']
+        print(customer_id.iloc[0])
+        if not customer_id.empty:
+            st.session_state["customer_id"] = customer_id.iloc[0]
+        else:
+            st.error("Customer ID not found for the provided email.")
+            return  # Keluar dari fungsi jika tidak ada Customer ID
+        
     if "clicked_button" not in st.session_state:
         st.session_state.clicked_button = None
     if "product_ids" not in st.session_state:
@@ -169,28 +177,14 @@ def chatbot_function():
         # Simpan dan tampilkan input pengguna
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
-
-        # Respons dari asisten
-        if not st.session_state["customer_id"]:
-            # Jika belum ada Customer ID, minta pengguna memasukkan ID
-            st.session_state["customer_id"] = prompt
-            if st.session_state["customer_id"] in df["Customer_ID"].values or st.session_state["customer_id"] not in df["Email"].values:
-                response = "Customer ID not found. Please try again."
-                st.session_state["customer_id"] = None  # Reset ID
-            else:
-                if "@" in st.session_state["customer_id"]:
-                    id = df[df['Email'] == st.session_state["customer_id"]]["Customer_ID"].iloc[0]
-                    st.session_state["customer_id"] = id
-                response = f"Thank you! Customer ID '{st.session_state['customer_id']}' has been verified. How can I assist you?"
-        else:
-            # Proses permintaan dengan Crew
-            try:
-                inputs = {"query": prompt, "customer": st.session_state["customer_id"]}
-                vector_db = load_vector_db()
-                transaction_data = retrieve_transcation(st.session_state["customer_id"])
-                response = multi_agent_rag(inputs['query'], vector_db, transaction_data)
-            except Exception as e:
-                response = f"An error occurred: {e}"
+        
+        try:
+            inputs = {"query": prompt, "customer": st.session_state["customer_id"]}
+            vector_db = load_vector_db()
+            transaction_data = retrieve_transcation(st.session_state["customer_id"])
+            response = multi_agent_rag(inputs['query'], vector_db, transaction_data)
+        except Exception as e:
+            response = f"An error occurred: {e}"
 
         # Simpan dan tampilkan respons dari asisten
         st.session_state.messages.append({"role": "assistant", "content": response})
