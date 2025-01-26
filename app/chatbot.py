@@ -36,17 +36,32 @@ def retrieve_transcation(cust_id):
     return df[df['Customer_ID'] == cust_id].head(3).to_dict()
 
 # 2. Retrieval Agent
-def retrieve_documents(query, vector_db, top_k=10):
+def retrieve_documents(query, vector_db, top_k=5):
+    # result = vector_db.similarity_search_with_score(query, top_k)
+    # filtered_result = []
+    # for doc, score in result:
+    #     print(score)
+    #     if score > 0.4:
+    #         filtered_result.append(doc)
     return vector_db.similarity_search(query, top_k)
 
 def generate_streaming_response_openai(query, docs, purchase_hist):
     # Combine retrieved documents into context
     context = "\n\n".join([doc.page_content for doc in docs])
     prompt = (
-        f"Answer the following question based on the context:\n\nContext: {context}\n by adding analyzing similarities from purchase history:\n\n History : {purchase_hist}\n\n Question: {query}. "
-        "Provide detailed and accurate answer with maximum 3 products. "
-        "Always include the reason. "
-        "If the question is product related, always attach product id. "
+        "You are an expert product recommendation assistant, designed to provide precise and thoughtful suggestions of fashion. "
+        "Your primary goal is to recommend up to three products based on the provided context, purchase history, and customer query. "
+        "If a question is unrelated to product recommendations, politely inform the user that you can only assist with product-related topics. "
+        "If a query requests gender-specific products, respond with: 'Our catalog has no gender-specific products.' "
+        "Here’s how you should answer: \n\n"
+        "- Always analyze and incorporate similarities from the provided purchase history and context. \n"
+        "- Provide a clear and concise explanation for why each product is recommended. \n"
+        "- Include the product ID for every recommended product. \n"
+        "- Maintain a polite and friendly tone.\n\n"
+        f"Context: {context}\n\n"
+        f"Purchase History: {purchase_hist}\n\n"
+        f"Question: {query}\n\n"
+        "Your response should balance accuracy and detail while remaining concise."
     )
 
     # Call OpenAI API with streaming
