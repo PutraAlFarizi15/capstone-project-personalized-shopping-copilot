@@ -1,7 +1,7 @@
 # Contributor
 | Name  | Job Description |
 | ------------- | ------------- |
-| Brillyando Magathan Achmad  | Data preparation, data cleaning, and preprocessing data. Create, build, and develope multi-agent system, implement virtual try on and integrate to streamlit  |
+| Brillyando Magathan Achmad  | Data Preparation, Data Cleaning, and Data Preprocessing. Create, Build, and Develope RAG System, Prompt Engineering, implement Virtual Try-on and integrate to streamlit, integrate to Google Cloud Storage and Deploy to Cloud Run  |
 | Putra Al Farizi  | Data Preparation, Data Preprocessing, Analyze Retention Rate, Average Order Value and Conversion Rate, and Develop Chatbot Application with RAG|
 | Khalid Destiawan  | Data Preparation, Analyze Retention Rate, Average Order Value and Conversion Rate. Dashboard development |
 
@@ -100,7 +100,4 @@ Welcome! Please provide your Customer ID to start.
     **Important:** The Virtual Try-On feature has a usage limit. Please use it wisely. 
 
 ## NOTES (IMPORTANT!)
-This app is under development. For frist execute, it maybe will take a lot of time because 
-the dataset is wrote to the chromadb. The product recommendation is not perfect because the tool used is still experimental.
-
 The uploaded image and result from virtual try on will be saved on local, so take a look at your drive.
