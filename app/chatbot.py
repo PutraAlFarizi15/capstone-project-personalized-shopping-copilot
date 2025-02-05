@@ -59,7 +59,7 @@ def generate_streaming_response_openai(query, docs, purchase_hist):
     "- Always analyze and incorporate similarities from the provided purchase history and context.\n"
     "- Provide a clear and concise explanation for why each product is recommended.\n"
     "- Include the product ID for every recommended product.\n"
-    "- Maintain a polite and friendly tone.\n\n"
+    "- Maintain friendly tone.\n\n"
     f"Context: {context}\n\n"
     f"Purchase History: {purchase_hist}\n\n"
     f"Question: {query}\n\n"
@@ -74,7 +74,7 @@ def generate_streaming_response_openai(query, docs, purchase_hist):
             {"role": "user", "content": prompt}
         ],
         stream=True,  # Enable streaming
-        temperature=0.3
+        temperature=0.7
     )
      
     # Placeholder for the response
@@ -188,6 +188,24 @@ def render_product_horizontal():
                     with cols[idx]:
                         st.error(f"Gambar untuk produk {product_id} tidak ditemukan.")
 
+# Function to display styled chat messages
+def chat_message(role, content):
+    if role == "user":
+        # User message aligned right
+        st.markdown(
+            f"""
+            <div style='text-align: right; background-color: #3a3d43; padding: 10px; border-radius: 10px; margin: 5px 0; width: fit-content; max-width: 70%; float: right;'>
+                {content}
+            </div>
+            <div style='clear: both;'></div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        # Assistant message aligned left
+        st.chat_message(role, avatar="material/bot_icon2.png").markdown(content)
+        
+
 # Fungsi utama chatbot
 def chatbot_function(email):
     # Streamlit Interface
@@ -221,12 +239,13 @@ def chatbot_function(email):
 
     # Menampilkan percakapan sebelumnya
     for msg in st.session_state.messages:
-        st.chat_message(msg["role"]).markdown(msg["content"])
+        chat_message(msg["role"], msg["content"])
+
     # Input pengguna
     if prompt := st.chat_input(placeholder="Type here for recommend product..."):
         # Simpan dan tampilkan input pengguna
         st.session_state.messages.append({"role": "user", "content": prompt})
-        st.chat_message("user").write(prompt)
+        chat_message("user", prompt)
         
         try:
             inputs = {"query": prompt, "customer": st.session_state["customer_id"]}
@@ -238,7 +257,8 @@ def chatbot_function(email):
 
         # Simpan dan tampilkan respons dari asisten
         st.session_state.messages.append({"role": "assistant", "content": response})
-        st.chat_message("assistant").markdown(response)
+        #st.chat_message("assistant").markdown(response)
+        chat_message("assistant", response)
 
         # Extract raw output
         output = response
