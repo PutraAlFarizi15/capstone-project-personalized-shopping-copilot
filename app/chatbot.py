@@ -158,6 +158,35 @@ def render_product(product_id):
         else:
             # Jika gambar tidak ditemukan
             st.error(f"Gambar untuk produk {product_id} tidak ditemukan.")
+            
+def render_product_horizontal():
+    if st.session_state.product_ids:
+        image_folder = "images"
+        cols = st.columns(len(st.session_state.product_ids))  # Buat kolom berdasarkan jumlah produk
+        
+        for idx, product_id in enumerate(st.session_state.product_ids):
+            filtered_df = df_products[df_products['Product_ID'] == product_id]
+            if not filtered_df.empty:
+                pattern = os.path.join(image_folder, f"{product_id}.*")
+                matching_files = glob.glob(pattern)
+
+                if matching_files:
+                    image_path = matching_files[0]
+                    img = Image.open(image_path)
+                    img = img.resize((300, 400))  # Pastikan semua gambar memiliki rasio 3:4
+                    
+                    with cols[idx]:  # Menempatkan konten dalam kolom
+                        st.subheader(f"{product_id}")
+                        st.image(img)
+                        st.button(
+                            f"Virtual Try-On for {product_id}",
+                            key=f"try_{product_id}_{idx}",  # Tambahkan indeks untuk keunikan
+                            on_click=handle_click,
+                            args=("Try ", product_id, image_path),
+                        )
+                else:
+                    with cols[idx]:
+                        st.error(f"Gambar untuk produk {product_id} tidak ditemukan.")
 
 # Fungsi utama chatbot
 def chatbot_function(email):
@@ -219,11 +248,12 @@ def chatbot_function(email):
         unique_product_ids = list(set(product_ids))
         st.session_state.product_ids = unique_product_ids
 
-    if st.session_state.product_ids:
-        for product_id in st.session_state.product_ids:
-            # Validasi product_ids di df_product
-            with st.container():
-                render_product(product_id)
+    render_product_horizontal()
+    #if st.session_state.product_ids:
+    #    for product_id in st.session_state.product_ids:
+    #        # Validasi product_ids di df_product
+    #        with st.container():
+    #            render_product(product_id)
 
         # Jika sedang menunggu gambar
     if st.session_state.waiting_for_image:

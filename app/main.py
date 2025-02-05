@@ -25,15 +25,12 @@ def main():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         login()  # Tampilkan halaman login
     else:
-        st.set_page_config(page_title="Personalized Shopping Copilot", layout="wide")
         st.title("Personalized Shopping Copilot")
 
         # Membuat tombol untuk memilih antara chatbot dan dashboard
-        st.sidebar.title("Pages")
-        #menu = st.sidebar.button("",["Chatbot", "Dashboard"])
+        menu = st.sidebar.radio("Select Page", ("Chatbot", "Dashboard", "Logout"))
 
-        if st.sidebar.button("Chatbot"):
-            st.subheader("Product Recommendation Chatbot")
+        if menu == "Chatbot":
             information = (
                 "**How to Use:**\n"
                 "- Describe the clothing you're looking for from the available options: **Dress, Jacket, Skirt, Coat, Suit, Shirt.**.\n"
@@ -47,10 +44,10 @@ def main():
             email = st.session_state['user_email']  # Ambil email dari session state
             chatbot_function(email)  # Menampilkan fungsi chatbot dengan email sebagai parameter
 
-        if st.sidebar.button("Dashboard"):
+        elif menu == "Dashboard":
             dashboard_function()  # Menampilkan fungsi dashboard
 
-        if st.sidebar.button("Logout"):
+        elif menu == "Logout":
             st.session_state['logged_in'] = False
             st.session_state.pop('user_email', None)  # Hapus email dari session state saat logout
             st.success("You have been logged out.")
