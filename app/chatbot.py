@@ -17,7 +17,7 @@ import glob
 # open your openai api key in file .env
 # Memuat file .env
 #load_dotenv()
-#openai_api_key = os.getenv("OPENAI_API_KEY")
+o#penai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Please fill your openai api key
 openai_api_key = ""
@@ -204,6 +204,33 @@ def chat_message(role, content):
     else:
         # Assistant message aligned left
         st.chat_message(role, avatar="material/bot_icon2.png").markdown(content)
+        
+        
+def chat_message_two_icon(role, content):
+    if role == "user":
+        st.markdown(
+            f"""
+            <div style='display: flex; justify-content: flex-end; align-items: center; margin: 5px 0;'>
+                <div style='background-color: #1F45FC; padding: 10px; border-radius: 10px; max-width: 80%; text-align: right;'>
+                    {content}
+                </div>
+                <img src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" width="30" height="30" style="border-radius: 50%; margin-left: 10px;">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            f"""
+            <div style='display: flex; align-items: top; margin: 5px 0;'>
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="30" height="30" style="border-radius: 50%; margin-right: 10px;">
+                <div style='background-color: #808080; padding: 10px; border-radius: 10px; max-width: 80%; text-align: left;'>
+                    {content}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         
 
 # Fungsi utama chatbot
