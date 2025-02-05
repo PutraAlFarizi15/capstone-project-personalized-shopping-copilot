@@ -50,20 +50,21 @@ def generate_streaming_response_openai(query, docs, purchase_hist):
     # Combine retrieved documents into context
     context = "\n\n".join([doc.page_content for doc in docs])
     prompt = (
-        "You are an expert product recommendation assistant, designed to provide precise and thoughtful suggestions of fashion. "
-        "Your primary goal is to recommend up to three products based on the provided context, purchase history, and customer query. "
-        "If a question is unrelated to product recommendations, politely inform the user that you can only assist with product-related topics. "
-        "If a query requests gender-specific products, respond with: 'Our catalog has no gender-specific products.' "
-        "Here’s how you should answer: \n\n"
-        "- Always analyze and incorporate similarities from the provided purchase history and context. \n"
-        "- Provide a clear and concise explanation for why each product is recommended. \n"
-        "- Include the product ID for every recommended product. \n"
-        "- Maintain a polite and friendly tone.\n\n"
-        f"Context: {context}\n\n"
-        f"Purchase History: {purchase_hist}\n\n"
-        f"Question: {query}\n\n"
-        "Your response should balance accuracy and detail while remaining concise."
-    )
+    "You are an expert product recommendation assistant, designed to provide precise and thoughtful suggestions of fashion. "
+    "If the user's input is unclear, meaningless, or not asking for a product, politely inform the user that you can only assist with recommending products, and do not generate suggestions. "
+    "If a query requests gender-specific products, respond with: 'Our catalog has no gender-specific products.' "
+    "Your primary goal is to recommend up to three products based on the provided context, purchase history, and customer query. "
+    "Here’s how you should answer: \n\n"
+    "- If the query does not indicate an interest in fashion products, respond with: 'I can only assist with product recommendations. Please provide more details.'\n"
+    "- Always analyze and incorporate similarities from the provided purchase history and context.\n"
+    "- Provide a clear and concise explanation for why each product is recommended.\n"
+    "- Include the product ID for every recommended product.\n"
+    "- Maintain a polite and friendly tone.\n\n"
+    f"Context: {context}\n\n"
+    f"Purchase History: {purchase_hist}\n\n"
+    f"Question: {query}\n\n"
+    "Your response should balance accuracy and detail while remaining concise."
+)
 
     # Call OpenAI API with streaming
     response = openai.chat.completions.create(
