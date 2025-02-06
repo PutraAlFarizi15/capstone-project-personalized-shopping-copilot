@@ -179,12 +179,15 @@ def render_product_horizontal():
                     with cols[idx]:  # Menempatkan konten dalam kolom
                         st.markdown(f"<h3 style='text-align: center;'>{product_id}</h3>", unsafe_allow_html=True)
                         st.image(img)
-                        st.button(
-                            f"Virtual Try-On for {product_id}",
-                            key=f"try_{product_id}_{idx}",  # Tambahkan indeks untuk keunikan
-                            on_click=handle_click,
-                            args=("Try ", product_id, image_path),
-                        )
+                        # Gunakan markdown untuk layout tombol ke tengah
+                        col1, col2, col3 = st.columns([1, 2, 1])
+                        with col2:  # Pusatkan tombol
+                            st.button(
+                                "Try-On",
+                                key=f"try_{product_id}_{idx}",  # Tambahkan indeks untuk keunikan
+                                on_click=handle_click,
+                                args=("Try ", product_id, image_path),
+                            )
                 else:
                     with cols[idx]:
                         st.error(f"Gambar untuk produk {product_id} tidak ditemukan.")

@@ -53,7 +53,7 @@ def main():
         "material/logo_iykra.png",
         icon_image="material/logo_iykra.png",
         )
-        st.header("💬 Product Recommendation Chatbot")
+        #st.header("💬 Product Recommendation Chatbot")
         #  Membuat logo aplikasi
         # st.sidebar.image("material/logo_iykra.png", width=120)  # Ganti dengan logo
         #st.sidebar.title("Pages")
@@ -61,6 +61,7 @@ def main():
 
         menu = st.sidebar.radio("Pages", ("Chatbot", "Dashboard", "Logout"))
         if menu == "Chatbot":
+            st.markdown('<p style="font-size:24px;">Product Recommendation Chatbot</p>', unsafe_allow_html=True)
             information = (
                 "**How to Use:**\n"
                 "- Describe the clothing you're looking for from the available options: **Dress, Jacket, Skirt, Coat, Suit, Shirt.**.\n"
@@ -75,6 +76,7 @@ def main():
             chatbot_function(email)  # Menampilkan fungsi chatbot dengan email sebagai parameter
 
         elif menu == "Dashboard":
+            st.markdown('<p style="font-size:24px;">Dashboard Shopping Copilot</p>', unsafe_allow_html=True)
             dashboard_function()  # Menampilkan fungsi dashboard
 
         elif menu == "Logout":

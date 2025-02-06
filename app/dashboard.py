@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 # Fungsi untuk menampilkan dashboard
 def dashboard_function():
     # Title of the app
-    st.header("Dashboard Shopping Copilot")
+    #st.header("Dashboard Shopping Copilot")
 
     # Looker Studio embed link
     looker_studio_url = "https://lookerstudio.google.com/embed/reporting/131e08c8-31a9-4c60-9624-10b3c466d1c4/page/8ALcE"
