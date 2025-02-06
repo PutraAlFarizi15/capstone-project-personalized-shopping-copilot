@@ -16,12 +16,12 @@ import glob
 
 # open your openai api key in file .env
 # Memuat file .env
-#load_dotenv()
-#openai_api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Please fill your openai api key
-openai_api_key = ""
-os.environ["OPENAI_API_KEY"] = openai_api_key
+#openai_api_key = ""
+#os.environ["OPENAI_API_KEY"] = openai_api_key
 
 df = pd.read_csv('Dataset/Customer_Interaction_Data_v3.csv')
 df_products = pd.read_csv('Dataset/final_product_catalog_v2.csv')
@@ -177,7 +177,7 @@ def render_product_horizontal():
                     img = img.resize((300, 400))  # Pastikan semua gambar memiliki rasio 3:4
                     
                     with cols[idx]:  # Menempatkan konten dalam kolom
-                        st.subheader(f"{product_id}")
+                        st.markdown(f"<h3 style='text-align: center;'>{product_id}</h3>", unsafe_allow_html=True)
                         st.image(img)
                         st.button(
                             f"Virtual Try-On for {product_id}",
@@ -205,6 +205,33 @@ def chat_message(role, content):
     else:
         # Assistant message aligned left
         st.chat_message(role, avatar="material/bot_icon2.png").markdown(content)
+        
+        
+def chat_message_two_icon(role, content):
+    if role == "user":
+        st.markdown(
+            f"""
+            <div style='display: flex; justify-content: flex-end; align-items: center; margin: 5px 0;'>
+                <div style='background-color: #1F45FC; padding: 10px; border-radius: 10px; max-width: 80%; text-align: right;'>
+                    {content}
+                </div>
+                <img src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" width="30" height="30" style="border-radius: 50%; margin-left: 10px;">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            f"""
+            <div style='display: flex; align-items: top; margin: 5px 0;'>
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="30" height="30" style="border-radius: 50%; margin-right: 10px;">
+                <div style='background-color: #808080; padding: 10px; border-radius: 10px; max-width: 80%; text-align: left;'>
+                    {content}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         
 
 # Fungsi utama chatbot
