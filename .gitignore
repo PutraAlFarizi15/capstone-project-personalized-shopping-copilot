@@ -175,3 +175,6 @@ venv/
 
 # db
 db/
+
+# file python for experimental features
+ui.py

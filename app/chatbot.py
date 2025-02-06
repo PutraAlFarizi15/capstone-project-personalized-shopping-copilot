@@ -16,12 +16,12 @@ import glob
 
 # open your openai api key in file .env
 # Memuat file .env
-#load_dotenv()
-o#penai_api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Please fill your openai api key
-openai_api_key = ""
-os.environ["OPENAI_API_KEY"] = openai_api_key
+#openai_api_key = ""
+#os.environ["OPENAI_API_KEY"] = openai_api_key
 
 df = pd.read_csv('Dataset/Customer_Interaction_Data_v3.csv')
 df_products = pd.read_csv('Dataset/final_product_catalog_v2.csv')
@@ -176,7 +176,7 @@ def render_product_horizontal():
                     img = img.resize((300, 400))  # Pastikan semua gambar memiliki rasio 3:4
                     
                     with cols[idx]:  # Menempatkan konten dalam kolom
-                        st.subheader(f"{product_id}")
+                        st.markdown(f"<h3 style='text-align: center;'>{product_id}</h3>", unsafe_allow_html=True)
                         st.image(img)
                         st.button(
                             f"Virtual Try-On for {product_id}",

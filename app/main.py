@@ -27,8 +27,11 @@ def main():
     else:
         st.title("Personalized Shopping Copilot")
 
+        # Membuat logo aplikasi
+        st.sidebar.image("material/logo_iykra.png", width=120)  # Ganti dengan logo
+        #st.sidebar.title("Pages")
         # Membuat tombol untuk memilih antara chatbot dan dashboard
-        menu = st.sidebar.radio("Select Page", ("Chatbot", "Dashboard", "Logout"))
+        menu = st.sidebar.radio("Pages", ("Chatbot", "Dashboard", "Logout"))
 
         if menu == "Chatbot":
             information = (
