@@ -43,14 +43,23 @@ def main():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         login()  # Tampilkan halaman login
     else:
-        st.title("Personalized Shopping Copilot")
+        with open("app/style.css") as css:
+            st.html(f"<style>{css.read()}</style>")
 
-        # Membuat logo aplikasi
-        st.sidebar.image("material/logo_iykra.png", width=120)  # Ganti dengan logo
+        with st.container(key="app_title"):
+            st.title("Personalized Shopping Copilot")
+
+        st.logo(
+        "material/logo_iykra.png",
+        icon_image="material/logo_iykra.png",
+        )
+        st.header("💬 Product Recommendation Chatbot")
+        #  Membuat logo aplikasi
+        # st.sidebar.image("material/logo_iykra.png", width=120)  # Ganti dengan logo
         #st.sidebar.title("Pages")
         # Membuat tombol untuk memilih antara chatbot dan dashboard
-        menu = st.sidebar.radio("Pages", ("Chatbot", "Dashboard", "Logout"))
 
+        menu = st.sidebar.radio("Pages", ("Chatbot", "Dashboard", "Logout"))
         if menu == "Chatbot":
             information = (
                 "**How to Use:**\n"
