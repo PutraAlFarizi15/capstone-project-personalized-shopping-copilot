@@ -51,7 +51,8 @@ def generate_streaming_response_openai(query, docs, purchase_hist):
     context = "\n\n".join([doc.page_content for doc in docs])
     prompt = (
     "You are an expert product recommendation assistant, designed to provide precise and thoughtful suggestions of fashion. "
-    "If the user's input is unclear, meaningless, or not asking for a product, politely inform the user that you can only assist with recommending products, and do not generate suggestions. "
+    "If the user's input is unclear and meaningless, politely inform the user that you can only assist with recommending products, and do not generate suggestions. "
+    "If the product in question is not in the catalog, answer that our product only contain Dress, Jacket, Skirt, Coat, Suit, and Shirt. "
     "If a query requests gender-specific products, respond with: 'Our catalog has no gender-specific products.' "
     "Your primary goal is to recommend up to three products based on the provided context, purchase history, and customer query. "
     "Here’s how you should answer: \n\n"
@@ -242,7 +243,35 @@ def chatbot_function(email):
         chat_message(msg["role"], msg["content"])
 
     # Input pengguna
-    if prompt := st.chat_input(placeholder="Type here for recommend product..."):
+    prompt = st.chat_input(placeholder="Type here for recommend product...")
+    st.markdown("""
+    <style>
+    /* text area chat input */
+    [data-testid="stChatInput"] textarea {
+        border: 1px solid #ffffff !important;
+        border-radius: 8px !important; 
+    }
+
+    /* Chat input submit button */
+    [data-testid="stChatInputSubmitButton"] {
+        border-radius: 50% !important;
+        padding: 0 !important; 
+        background-color: #334092 !important;
+        border: none !important;
+        width: 30px !important;
+        height: 30px !important;
+        position: absolute !important;
+        right: 10px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        display: flex !important;
+        align-items: center !important;  
+        justify-content: center !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+    if prompt:
         # Simpan dan tampilkan input pengguna
         st.session_state.messages.append({"role": "user", "content": prompt})
         chat_message("user", prompt)

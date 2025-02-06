@@ -10,6 +10,24 @@ def login():
     st.title("Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
+    st.markdown("""
+    <style>
+    /* Default styling for username and password input fields */
+    [data-testid="stTextInput"] input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border: 2px solid #FFFFFF !important;
+        border-radius: 5px !important;
+        padding: 10px !important;
+        outline: none !important; 
+    }
+    [data-testid="stTextInput"] input:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 
     if st.button("Login"):
         # Ganti dengan logika autentikasi yang sesuai
