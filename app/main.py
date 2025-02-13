@@ -59,44 +59,39 @@ def main():
         # Membuat tombol untuk memilih antara chatbot dan dashboard
         menu = st.sidebar.radio("Pages", ("Chatbot", "Dashboard", "Logout"), label_visibility="hidden")
         st.markdown("""
-    <style>
-    /* Hide the default radio button */
-    div[role="radiogroup"] input {
-        display: none !important;
-    }
+            <style>
+            div[role="radiogroup"] input {
+                display: none !important;
+            }
+            div[role="radiogroup"] label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: transparent;
+                color: rgba(255, 255, 255, 0.5);
+                padding: 12px 20px;
+                margin: 5px 0;
+                border-radius: 24px;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;
+                text-align: center;
+                border: 2px solid rgba(255, 255, 255, 0.2);
+                transition: 0.3s ease;
+                height: 50px; /* Ensure uniform button size */
+                width: 100%;
+            }
 
-    /* Style the labels as buttons */
-    div[role="radiogroup"] label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: transparent;
-        color: rgba(255, 255, 255, 0.5);
-        padding: 12px 20px;
-        margin: 5px 0;
-        border-radius: 24px;
-        cursor: pointer;
-        font-size: 18px;
-        font-weight: bold;
-        text-align: center;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        transition: 0.3s ease;
-        height: 50px; /* Ensure uniform button size */
-        width: 100%;
-    }
+            div[role="radiogroup"] label span {
+                width: 100%;
+                text-align: center;
+            }
 
-    /* Fix alignment of text inside radio */
-    div[role="radiogroup"] label span {
-        width: 100%;
-        text-align: center;
-    }
-
-    /* Hover effect */
-    div[role="radiogroup"] label:hover {
-        border-color: #3F4092;
-    }
-    </style>
-""", unsafe_allow_html=True)
+            div[role="radiogroup"] label:hover {
+                border-color: #3F4092;
+            }
+            </style>
+        """, unsafe_allow_html=True)
         if menu == "Chatbot":
             
             st.markdown('<p style="font-size:24px;">Product Recommendation Chatbot</p>', unsafe_allow_html=True)
