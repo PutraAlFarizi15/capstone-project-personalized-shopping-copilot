@@ -93,7 +93,29 @@ def main():
             </style>
         """, unsafe_allow_html=True)
         if menu == "Chatbot":
-            
+            st.markdown(
+                """
+                <style>
+                    /* Atur lebar container utama */
+                    .block-container {
+                        max-width: 95%;
+                        padding-left: 8rem;
+                        padding-right: 2rem;
+                    }
+
+                    /* Menyesuaikan ukuran font dalam metric */
+                    .stMetric {
+                        font-size: 1.2rem;
+                    }
+
+                    /* Efek hover untuk tabel */
+                    table tbody tr:hover {
+                        background-color: rgba(255, 255, 255, 0.1) !important;
+                    }
+                </style>
+                """,
+                unsafe_allow_html=True
+            )
             st.markdown('<p style="font-size:24px;">Product Recommendation Chatbot</p>', unsafe_allow_html=True)
             information = (
                 "**How to Use:**\n"
